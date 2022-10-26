@@ -1,71 +1,80 @@
-version: "3.7"
+version: '3.1'
+
+networks:
+  lared:
+    driver: bridge
+
 services:
-  zookeeper:
-    image: 'bitnami/zookeeper:3.7.0'
+  members_producer:
+    container_name: members_producer
+    build: ./server/Members/producer
     restart: always
+    depends_on:
+      - members_consumer
+    
+    networks:
+       - lared
+    ports:
+      - "3000:3000"
+        
+  members_consumer:
+    container_name: members_consumer
+    build: ./server/Members/consumer
+    networks:
+      - lared
+
+    ports:
+      - "8000:8000"
+
+  sale_producer:
+    container_name: sale_producer
+    build: ./server/Ventas/producer
+    networks:
+      - lared
+    depends_on:
+       - sales_consumer
+    ports:
+      - "3001:3000"
+
+  sales_consumer:
+    container_name: sales_consumer
+    build: ./server/Ventas/consumer
+    networks:
+      - lared
+    ports:
+      - "8001:8000"
+
+  stock_consumer:
+    container_name: stock_consumer
+    build: ./server/Stock/consumer
+    networks:
+      - lared
+    ports:
+      - "8002:8000"
+  
+  zookeeper:
+    container_name: elzookeeper
+    image: 'bitnami/zookeeper:latest'
     environment:
       ALLOW_ANONYMOUS_LOGIN: "yes"
+    networks:
+      - lared
     ports:
       - 2181:2181
       - 2888:2888
       - 3888:3888
+    
   kafka:
-    image: 'bitnami/kafka:2.8.1'
-    restart: always
+    container_name: elkafka
+    image: 'bitnami/kafka:latest'
+    networks:
+     - lared
     depends_on:
       - zookeeper
     environment:
+      KAFKA_ADVERTISED_HOST_NAME: "kafka"   
+      KAFKA_ADVERTISED_PORT: "9092"
       ALLOW_PLAINTEXT_LISTENER: "yes"
       KAFKA_CFG_ZOOKEEPER_CONNECT: "zookeeper:2181"
     ports:
       - 9092:9092
-
-  postgres:
-    image: bitnami/postgresql:12.10.0
-    container_name: postgres-tarea1
-    volumes:
-      #- ./Crawler/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=tarea1
-      - ALLOW_EMPTY_PASSWORD=yes
-
-
-
-  Ventas:
-    build:
-      context: ./Ventas
-      dockerfile: Dockerfile 
-    restart: always
-    depends_on:
-      - zookeeper
-      - kafka
-    environment:
-      PORT: 3000
-      kafkaHost: kafka:9092
-    volumes:
-      - ./node/index.js:/app/index.js
-    ports:
-      - 3000:3000
-
-  Miembros:
-    build:
-      context: ./Miembros
-      dockerfile: Dockerfile 
-    restart: always
-    depends_on:
-      - zookeeper
-      - kafka
-    environment:
-      PORT: 3001
-      kafkaHost: kafka:9092
-    volumes:
-      - ./node/index.js:/app/index.js
-    ports:
-      - 3001:3000
-
-
-    

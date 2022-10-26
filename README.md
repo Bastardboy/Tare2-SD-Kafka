@@ -14,7 +14,7 @@ En este repositorio tendremos el codigo y las instrucciones para ejecutar la tar
 - [kafka (docker)](https://hub.docker.com/r/bitnami/kafka)
 
 
-
+    https://kafka.js.org/docs/getting-started
 
 
 
