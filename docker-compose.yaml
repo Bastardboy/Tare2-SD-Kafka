@@ -5,9 +5,10 @@ networks:
     driver: bridge
 
 services:
+################################PETICION 1, REGISTRO DE USUARIO#####################################
   members_producer:
     container_name: members_producer
-    build: ./server/Members/producer
+    build: ./servidor/Miembros/producer
     restart: always
     depends_on:
       - members_consumer
@@ -19,16 +20,16 @@ services:
         
   members_consumer:
     container_name: members_consumer
-    build: ./server/Members/consumer
+    build: ./servidor/Miembros/consumer
     networks:
       - lared
 
     ports:
       - "8000:8000"
-
+################################PETICION 2, REGISTRO DE VENTA#####################################
   sale_producer:
     container_name: sale_producer
-    build: ./server/Ventas/producer
+    build: ./servidor/Ventas/producer
     networks:
       - lared
     depends_on:
@@ -38,20 +39,89 @@ services:
 
   sales_consumer:
     container_name: sales_consumer
-    build: ./server/Ventas/consumer
+    build: ./servidor/Ventas/consumer
     networks:
       - lared
     ports:
       - "8001:8000"
 
-  stock_consumer:
-    container_name: stock_consumer
-    build: ./server/Stock/consumer
+##################################PETICION 3, AVISO DE PERDIDO#####################################
+  perdido_producer:
+    container_name: perdido_producer
+    build: ./servidor/Perdido/producer
+    networks:
+      - lared
+    depends_on:
+      - perdido_consumer
+    ports:
+      - "3002:3000"
+
+  perdido_consumer:
+    container_name: perdido_consumer
+    build: ./servidor/Perdido/consumer
     networks:
       - lared
     ports:
       - "8002:8000"
-  
+
+#################################PROCESAMIENTO 1, VENTAS DIARIAS##########################################
+  daily_sales_producer:
+    container_name: daily_sales_producer
+    build: ./servidor/Ventas/producer
+    networks:
+      - lared
+    depends_on:
+      - daily_sales_consumer
+    ports:
+      - "3003:3000"
+
+  daily_sales_consumer:
+    container_name: daily_sales_consumer
+    build: ./servidor/Ventas/consumer
+    networks:
+      - lared
+    ports:
+      - "8003:8000"
+
+##################################PROCESAMIENTO 2, STOCK DE REPOSICION##################################### 
+  stock_producer:
+    container_name: stock_producer
+    build: ./servidor/Stock/producer
+    networks:
+      - lared
+    depends_on:
+      - stock_consumer
+    ports:
+      - "3004:3000"
+
+  stock_consumer:
+    container_name: stock_consumer
+    build: ./servidor/Stock/consumer
+    networks:
+      - lared
+    ports:
+      - "8004:8000"
+
+##################################PROCESAMIENTO 3, UBICACION#####################################
+  ubicacion_producer:
+    container_name: ubicacion_producer
+    build: ./servidor/Ubicacion/producer
+    networks:
+      - lared
+    depends_on:
+      - ubicacion_consumer
+    ports:
+      - "3005:3000"
+
+  ubicacion_consumer:
+    container_name: ubicacion_consumer
+    build: ./servidor/Ubicacion/consumer
+    networks:
+      - lared
+    ports:
+      - "8005:8000"
+
+##################################ZOOKEPER Y KAFKA#####################################
   zookeeper:
     container_name: elzookeeper
     image: 'bitnami/zookeeper:latest'
