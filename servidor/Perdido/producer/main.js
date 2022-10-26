@@ -1,56 +1,36 @@
-"use strict";
-//-------------------Librerias-----------------------------
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const bodyParser = require("body-parser");
-const { Kafka } = require("kafkajs");
+const express = require('express');
+const cors = require('cors');
+const { Kafka } = require('kafkajs');
 
-//----------------Configuración---------------------------
 const app = express();
-dotenv.config();
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
-app.use(bodyParser.json());
+const port = process.env.PORT || 3000;
+
 app.use(cors());
+app.use(express.json());
 
-var port = process.env.PORT || 3000;
-var host = process.env.PORT || "0.0.0.0";
-
-var kafka = new Kafka({
-  clientId: "my-app",
-  brokers: ["kafka:9092"],
+const kafka = new Kafka({
+    brokers: ['kafka:9092']
 });
 
-app.post("/registrarV", (req, res) => {
-  console.log("ENTRO REGISTRO DE VENTAS");
-  (async () => {
-    const producer = kafka.producer();
-    await producer.connect();
-    const { name, lastname, patent, premium, Cant_Sopaipillas, Hora, Stock_restante, Ubicacion } = req.body;
+const producer = kafka.producer();
+
+app.post('/perdido', async(req, res) => {
+    const { ubicacion } = req.body;
     let user = {
-      name: name,
-      lastname: lastname,
-      mail: email,
-      patente: patent,
-      premium: premium,
-      Cant_Sopaipillas: Cant_Sopaipillas,
-      Hora: Hora,
-      Stock_restante: Stock_restante,
-      Ubicacion: Ubicacion
+        ubicacion: ubicacion,
     };
+    await producer.connect();
     await producer.send({
-      topic: "N_Venta",
-      messages: [{ value: JSON.stringify(user) }],
+        topic: 'Perdido',
+        messages: [{ value: JSON.stringify(user) }],
     });
-    await producer.disconnect();
-    res.json(user);
-  })();
-});
+    await producer.disconnect().then(
+        res.status(200).json({
+            message: 'Ubicacion Registrada'
+        })
+    )
+})
 
-app.listen(port, host, () => {
-  console.log(`API run in: http://localhost:${port}.`);
-});
+app.listen(port, () => {
+    console.log(`Se levanto en http://localhost:${port}`)
+})

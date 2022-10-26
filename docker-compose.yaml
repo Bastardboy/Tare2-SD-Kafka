@@ -23,7 +23,6 @@ services:
     build: ./servidor/Miembros/consumer
     networks:
       - lared
-
     ports:
       - "8000:8000"
 ################################PETICION 2, REGISTRO DE VENTA#####################################
@@ -65,61 +64,61 @@ services:
       - "8002:8000"
 
 #################################PROCESAMIENTO 1, VENTAS DIARIAS##########################################
-  daily_sales_producer:
-    container_name: daily_sales_producer
-    build: ./servidor/Ventas/producer
-    networks:
-      - lared
-    depends_on:
-      - daily_sales_consumer
-    ports:
-      - "3003:3000"
+  # daily_sales_producer:
+  #   container_name: daily_sales_producer
+  #   build: ./servidor/Ventas/producer
+  #   networks:
+  #     - lared
+  #   depends_on:
+  #     - daily_sales_consumer
+  #   ports:
+  #     - "3003:3000"
 
-  daily_sales_consumer:
-    container_name: daily_sales_consumer
-    build: ./servidor/Ventas/consumer
-    networks:
-      - lared
-    ports:
-      - "8003:8000"
+  # daily_sales_consumer:
+  #   container_name: daily_sales_consumer
+  #   build: ./servidor/Ventas/consumer
+  #   networks:
+  #     - lared
+  #   ports:
+  #     - "8003:8000"
 
 ##################################PROCESAMIENTO 2, STOCK DE REPOSICION##################################### 
-  stock_producer:
-    container_name: stock_producer
-    build: ./servidor/Stock/producer
-    networks:
-      - lared
-    depends_on:
-      - stock_consumer
-    ports:
-      - "3004:3000"
+  # stock_producer:
+  #   container_name: stock_producer
+  #   build: ./servidor/Stock/producer
+  #   networks:
+  #     - lared
+  #   depends_on:
+  #     - stock_consumer
+  #   ports:
+  #     - "3004:3000"
 
-  stock_consumer:
-    container_name: stock_consumer
-    build: ./servidor/Stock/consumer
-    networks:
-      - lared
-    ports:
-      - "8004:8000"
+  # stock_consumer:
+  #   container_name: stock_consumer
+  #   build: ./servidor/Stock/consumer
+  #   networks:
+  #     - lared
+  #   ports:
+  #     - "8004:8000"
 
 ##################################PROCESAMIENTO 3, UBICACION#####################################
-  ubicacion_producer:
-    container_name: ubicacion_producer
-    build: ./servidor/Ubicacion/producer
-    networks:
-      - lared
-    depends_on:
-      - ubicacion_consumer
-    ports:
-      - "3005:3000"
+  # ubicacion_producer:
+  #   container_name: ubicacion_producer
+  #   build: ./servidor/Ubicacion/producer
+  #   networks:
+  #     - lared
+  #   depends_on:
+  #     - ubicacion_consumer
+  #   ports:
+  #     - "3005:3000"
 
-  ubicacion_consumer:
-    container_name: ubicacion_consumer
-    build: ./servidor/Ubicacion/consumer
-    networks:
-      - lared
-    ports:
-      - "8005:8000"
+  # ubicacion_consumer:
+  #   container_name: ubicacion_consumer
+  #   build: ./servidor/Ubicacion/consumer
+  #   networks:
+  #     - lared
+  #   ports:
+  #     - "8005:8000"
 
 ##################################ZOOKEPER Y KAFKA#####################################
   zookeeper:

@@ -21,11 +21,10 @@ const func = async () => {
     await consumer.subscribe({ topic: 'N_Miembro'});
 
     await consumer.run({
-        eachMessage: async ({ topic, partition, message }) => {
+        eachMessage: async ({ topic, partition, message }) => {   
             if(message.value){
                 var data = JSON.parse(message.value.toString());
                 miembros.push(data);
-                //Show the data nombre, apellido, rut, correo, patente, premium
                 console.log(miembros);
             }
         },
