@@ -1,66 +1,74 @@
-# SD-Homeworks2
-## Integrantes: Abel Baulloza y Diego Carrillo .
-**Instrucciones y uso**
-NO HAY PERROOOOOS
+
+<br />
+<div align="center">
+
+  <h3 align="center">Sistemas Distribuidos: Tarea 02</h3>
+
+  <p align="center">
+    Bastián Castro, David Pazán
+  </p>
+</div>
+
+
+## Acerca del proyecto
+
+El objetivo de esta tarea consiste en poner en práctica los conceptos de cola de eventos. Para ello se debe hacer uso de tecnlogías que permitan la solución a esta problemática
+
+
+### 🛠 Construído con:
+
+Esta sección muestra las tecnologías con las que fue construído el proyecto.
+
+* [Kafka](https://kafka.apache.org/documentation/#gettingStarted)
+* [Zookeper](https://zookeeper.apache.org/doc/r3.8.0/index.html)
+* [NodeJs](https://nodejs.org/en/docs/guides/)
+* [KafkaJs](https://kafka.js.org/docs/getting-started)
+* [Docker](https://www.docker.com)
+
+
+## 🔰 Comenzando
+
+Para iniciar el proyecto, primero hay que copiar el repositorio y luego escribir el siguiente comando en la consola:
+* docker
+```sh
+docker-compose --build -d
+```
+Para que los contenedores se inician en el ambiente local se utiliza el siguiente comando en la consola:
+* docker
+```sh
+docker-compose up -d
+```
+### Pre-Requisitos
+
+Tener Docker y Docker Compose instalado
+* [Installation Guide](https://docs.docker.com/compose/install/)
 
 
 
+## 🤝 Uso
 
+La aplicación tiene una API, que a través del método POST se pueden hacer las peticiones de ingreso:
 
-if(bloqueados.includes(json)) /*json["name"]*/
-      {
-        let word = json["username"]
-        //res.json(word+" bloqueado")
-        console.log("ta bloqueado sorry :(")
-        //return
-      }else{
-        if(!(json["username"] in registro)){
-          var array = []
-          registro[json["username"]] = array
-          registro[json["username"]].push(json["tiempo"])
-        }else{
-          registro[json["username"]].push(json["tiempo"])
-        }
-        //console.log(registro[json["username"]])
-        //console.log(registro[json["username"]].length)
-        if(registro[json["username"]].length >= 3 && registro[json["username"]][registro[json["username"]].length -1] - registro[json["username"]][registro[json["username"]].length -5] <60){
-          //console.log(registro[json["username"]][registro[json["username"]].length -1] - registro[json["username"]][registro[json["username"]].length -5])
-          console.log("Bloqueado")
-          bloqueados.push(json["username"])
-          console.log(bloqueados)
-        }
-      }
+### Query
+Busca el inventario según la coincidencia de la palabra otorgada, busca en Cache y luego en la Base de Datos.
+```curl
+curl −−location −−request GET http://localhost:3000/registro
+```
+#### 
+- ☄METODO: Post
+- 🔑KEY: registro
+- 📃VALUE: \<JSON con los parámetros solicitados\>
 
-
-
-
-
-Topic: Ventas
-http://localhost:3001/sales
-
+#### JSON example
+```js
 {
-	"client": "abel",
-  "count_sopaipillas": "3",
-	"hora": "14:45",
-	"stock": "5",
-	"ubicacion": "2,1"
+    "name": "Bastian",
+    "lastname":"Pazán",
+    "dni":"13976345-7",
+    "email":"quiero@morir.com",
+    "patent": "XDFG65",
+    "premium": "0"
 }
-
-Topic: Stock
-
-
-
-Topic: Coordenadas
-
-
-Topic: Miembros
-http://localhost:3000/new_member
-
-{
-	"name": "abel",
-  	"lastname": "baulloza almeida",
-	"dni": "20.245.835-1",
-	"mail": "abel.baulloza@mail.udp.cl",
-	"patente": "CGZY30",
-	"premium":"si"
-}
+```
+## 📹 Video Demostrativo
+[![Alt text](https://i.imgur.com/UzCFNcT.png)](https://youtu.be/h09TIF2YaNk)
