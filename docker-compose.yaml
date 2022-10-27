@@ -36,7 +36,7 @@ services:
 
   miembros_producer:
     container_name: miembros_producer
-    build: ./server/Members/producer
+    build: ./server/Producers/Miembros
     depends_on:
        - zookeeper
        - kafka 
@@ -48,7 +48,7 @@ services:
         
   miembros_consumer:
     container_name: miembros_consumer
-    build: ./server/Members/consumer
+    build: ./server/Consumers/Miembros
     networks:
       - red
     depends_on:
@@ -63,7 +63,7 @@ services:
 
   ventas_producer:
     container_name: ventas_producer
-    build: ./server/Ventas/producer
+    build: ./server/Producers/Ventas
     networks:
       - red
     depends_on:
@@ -78,7 +78,7 @@ services:
 
   ventas_consumer:
     container_name: ventas_consumer
-    build: ./server/Ventas/consumer
+    build: ./server/Consumers/Ventas
     networks:
       - red
     depends_on:
@@ -93,7 +93,7 @@ services:
 
   stock_consumer:
     container_name: stock_consumer
-    build: ./server/Stock/consumer
+    build: ./server/Consumers/Stock
     networks:
       - red
     depends_on:
@@ -109,7 +109,7 @@ services:
 
   ubicacion_producer:
     container_name: ubicacion_producer
-    build: ./server/Ubication/producer
+    build: ./server/Producers/Ubicacion
     networks:
       - red
     depends_on:
@@ -124,7 +124,7 @@ services:
 
   ubicacion_consumer:
     container_name: ubicacion_consumer
-    build: ./server/Ubication/consumer
+    build: ./server/Consumers/Ubicacion
     networks:
       - red
     depends_on:
