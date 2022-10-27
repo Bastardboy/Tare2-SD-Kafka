@@ -68,7 +68,6 @@ app.post("/ubicacion", (req, res) => {
   })();
 });
 
-
 app.listen(port,host, () => {
   console.log(`API run in: http://localhost:${port}.`);
 });

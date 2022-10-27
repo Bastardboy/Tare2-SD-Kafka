@@ -29,12 +29,13 @@ app.post("/ventas", (req, res) => {
   (async () => {
       const producer = kafka.producer();
       await producer.connect();
-      const { cliente, cant_sopaipa, hora, stock, ubicacion } = req.body;
+      const { cliente, cant_sopaipa, hora, patente, stock, ubicacion } = req.body;
 
       let sale = {
         cliente: cliente,
         cant_sopaipa: cant_sopaipa,
         hora: hora,
+        patente: patente,
         stock: stock,
         ubicacion: ubicacion
       }
@@ -64,18 +65,6 @@ app.post("/ventas", (req, res) => {
       console.log('Venta registrada')
   })();
 });
-
-
-
-  ///////////////////////////////////////////////////////////////  
-
-
-app.get("/", (req, res) => {
-  res.send("ola api");
-});
-
-
-/* PORTS */
 
 app.listen(port,host, () => {
   console.log(`API run in: http://localhost:${port}.`);

@@ -29,7 +29,7 @@ var carritoP = []
 
 
 const main = async () => {
-  const consumer = kafka.consumer({ groupId: "ubication" });
+  const consumer = kafka.consumer({ groupId: "ubicacion" });
   
   await consumer.connect();
   await consumer.subscribe({ topic: "ubicacion", fromBeginning: true });
@@ -39,14 +39,14 @@ const main = async () => {
       var value = JSON.parse(message.value.toString());
       if(partition == 0)
       {
-        carrito.push(value);
+        carrito.push(value["ubicacion"]);
         console.log("Entra a particion 0")
-        console.log("Carrito ok")
+        console.log("Carrito esta bien")
         console.log(carrito)
       }
       else if(partition == 1)
       {
-        carritoP.push(value);
+        carritoP.push(value["ubicacion"]);
         console.log("Entra en particion 1")
         console.log("Este carrito es profugo, patente:", value["patente"])
         console.log(carritoP)

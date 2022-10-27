@@ -29,41 +29,39 @@ var json = {};
 var stock = [];
 
 const main = async () => {
-  console.log("Entra stock");
 
-  const consumer = kafka.consumer({ groupId: "group-stock" });
+  const consumer = kafka.consumer({ groupId: "stock" });
   await consumer.connect();
   await consumer.subscribe({ topic: "stock", fromBeginning: true });
-  console.log("producer");
 
-  await consumer
-    .run({
+  await consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
-        value = message.value;
         var algo = JSON.parse(message.value.toString());
-        console.log(algo);
-        json = JSON.parse(value);
 
-        if (json["stock"] <= 3) {
-          stock.push(json);
-          if (stock.length == 5) {
-            console.log(
-              "Hay 5 miembros registrados con stock para reposicionar"
-            );
-            console.log(stock);
-            stock = [];
-          }
+        if(algo["stock"] <= 5){
+          console.log("Stock MENOR A 5, SE AGREGA A LA COLA DE MENSAJE PARA NOTIFICAR");
+          stock.push(algo["patente", "stock", "ubicacion"]);
+          console.log("TAMAÑO DEL ARREGLO, ES DECIR CUANTOS SE HAN METIDO " + stock.length);
         }
+        if(stock.length == 5){
+          console.log("LA COLA DE NOTIFICACION ESTA LLENA, SE PROCEDE A MOSTRAR LOS DATOS DE LOS CARRITOS");
+          console.log(stock);
+          stock = [];
+        }
+
+
+        // if (algo["stock"] <= 3) {
+        //   stock.push(algo);
+        //   if (stock.length == 5) {
+        //     console.log(
+        //       "Tenemos 5 miembros con problema de stock"
+        //     );
+        //     stock = [];
+        //   }
+        // }
       },
     })
-    .catch(console.error);
 };
-
-//asdlaskdj
-app.get("/blocked", (req, res) => {
-  res.send(bloqueados);
-});
-/* PORTS */
 
 app.listen(port, host, () => {
   console.log(`API-Blocked run in: http://localhost:${port}.`);

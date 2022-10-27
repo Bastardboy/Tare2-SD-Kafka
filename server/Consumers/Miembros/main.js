@@ -26,7 +26,7 @@ var miembrosP = [];
 var miembrosN = [];
 
 const main = async () => {
-  const consumer = kafka.consumer({ groupId: "members" });
+  const consumer = kafka.consumer({ groupId: "N_Miembro" });
   console.log("Entra main")
   await consumer.connect();
   await consumer.subscribe({ topic: "N_Miembro", fromBeginning: true });
