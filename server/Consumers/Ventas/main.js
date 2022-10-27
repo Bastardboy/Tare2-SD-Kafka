@@ -23,33 +23,32 @@ var kafka = new Kafka({
 });
 const consumer = kafka.consumer({ groupId: "group-sales" });
 
-var value = null
-var json = {}
-var stock = [];
+var venta = [];
 
 const main = async () => {
   console.log("Entra sale")
   await consumer.connect();
-  await consumer.subscribe({ topic: "ventas", fromBeginning: true });
+  await consumer.subscribe({ topic: "venta", fromBeginning: true });
   console.log("producer");
 
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      value = message.value
-      console.log({
-        value: message.value.toString(),
-      })
-      json = JSON.parse(value)
 
-      if(stock.includes(json)){
-        console.log('Consulta ya guardada')
-      }else{
-        stock.push(json)
-        if(stock.length==5){
-          console.log('Lista de 5 consultas guardadas')
-          console.log(stock)
-        }
-      }
+      var venta = JSON.parse(message.value.toString());
+      
+      console.log("Venta registrada: ", venta)
+
+      venta.push(venta);
+
+      // if(stock.includes(json)){
+      //   console.log('Consulta ya guardada')
+      // }else{
+      //   stock.push(json)
+      //   if(stock.length==5){
+      //     console.log('Lista de 5 consultas guardadas')
+      //     console.log(stock)
+      //   }
+      // }
     },
   })
   .catch(console.error)

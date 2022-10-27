@@ -31,11 +31,11 @@ app.post("/registro", (req, res) => {
       const producer = kafka.producer();
       //const admin = kafka.admin();
       await producer.connect();
-      const { name, lastname, dni, mail, patente, premium } = req.body;
+      const { name, lastname, rut, mail, patente, premium } = req.body;
       let member = {
         name: name,
         lastname: lastname,
-        dni: dni,
+        rut: rut,
         mail: mail,
         patente: patente,
         premium: premium,
@@ -63,7 +63,7 @@ app.post("/registro", (req, res) => {
 
       await producer.disconnect();
 
-      res.json("Agregado");  
+      res.json("Se registro al miembro");  
     })();
 
 });

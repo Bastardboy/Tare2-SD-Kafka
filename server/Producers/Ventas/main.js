@@ -25,41 +25,41 @@ var kafka = new Kafka({
 });
 
 app.post("/ventas", (req, res) => {
-  //console.log("V");
+
   (async () => {
       const producer = kafka.producer();
       await producer.connect();
-      const { client, count_sopaipillas, hora, stock, ubicacion } = req.body;
-      
-      var time = Math.floor(new Date() / 1000);
+      const { cliente, cant_sopaipa, hora, stock, ubicacion } = req.body;
 
       let sale = {
-        client: client,
-        count_sopaipillas: count_sopaipillas,
+        cliente: cliente,
+        cant_sopaipa: cant_sopaipa,
         hora: hora,
         stock: stock,
         ubicacion: ubicacion
       }
       const topicMessages = [
         {
+          // Como el carrito de sopaipillas es usado, es mandado a la particion 0 de la cola de ventas,
+          // De esta forma se puede saber que el carrito está en una zona segura
             topic: 'ubicacion',
+            partition: 0,
             messages: [{key: 'key1', value: JSON.stringify(sale), partition: 0}]
         },
         {
-          // Stock debe estar leyendo constantes consultas
-          topic: 'ventas',
+          // Se envia al tópico de ventas, se usará para los cálculos de las ventas diarias
+          topic: 'venta',
           messages: [{value: JSON.stringify(sale)}]
         },
         {
-            // Stock debe estar leyendo constantes consultas
+            // El Stock se mantiene en esucha constante
+            //Entonces al enviarle al topic stock, debe ser capaz de ver el stock restante que tiene el carrito
             topic: 'stock',
             messages: [{value: JSON.stringify(sale)}]
         }
     ]
-    // Recibe y envia coordenadas al topico de las coordenadas en otra particion, aun no se como hacer eso asi que lo envio ahi nomas
       await producer.sendBatch({ topicMessages })
       await producer.disconnect();
-      //await admin.disconnect();
       res.json(sale);
       console.log('Venta registrada')
   })();

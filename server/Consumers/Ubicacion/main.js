@@ -23,10 +23,11 @@ var kafka = new Kafka({
   brokers: ["kafka:9092"],
 });
 
-var value = null
-var json = {}
-var stock = []
-//var registro = {};
+
+var carrito = []
+var carritoP = []
+
+
 const main = async () => {
   const consumer = kafka.consumer({ groupId: "ubication" });
   
@@ -38,13 +39,17 @@ const main = async () => {
       var value = JSON.parse(message.value.toString());
       if(partition == 0)
       {
+        carrito.push(value);
         console.log("Entra a particion 0")
         console.log("Carrito ok")
+        console.log(carrito)
       }
       else if(partition == 1)
       {
+        carritoP.push(value);
         console.log("Entra en particion 1")
         console.log("Este carrito es profugo, patente:", value["patente"])
+        console.log(carritoP)
       }
     },
   })

@@ -5,7 +5,6 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const { Kafka } = require("kafkajs");
-const { json } = require("body-parser");
 
 const app = express();
 dotenv.config();
@@ -30,18 +29,20 @@ app.post("/ubicacion", (req, res) => {
   
   (async () => {
       const producer = kafka.producer();
-      //const admin = kafka.admin();
+      
       await producer.connect();
       const { patente,coordenadas , denuncia } = req.body;
-      var time = Math.floor(new Date() / 1000);
+      today = new Date();
       let localizacion = {
         patente: patente,
         coordenadas:coordenadas,
         denuncia:denuncia ,
-        tiempo: time.toString()
       }
       value = JSON.stringify(localizacion)
       
+      //Al igual que en el producer de miembros, dependiendo de la "opcion"
+      //se envia a una particion u otra 1 = carritos profugos 0 = carritos seguros
+
       if(localizacion["denuncia"] == 1){
         const topicMessages = [
           {
@@ -56,6 +57,7 @@ app.post("/ubicacion", (req, res) => {
         const topicMessages = [
           {
             topic: 'ubicacion',
+            partition: 0,
             messages: [{value: JSON.stringify(localizacion), partition: 0}]
           },
         ]
@@ -66,7 +68,6 @@ app.post("/ubicacion", (req, res) => {
   })();
 });
 
-/* PORTS */
 
 app.listen(port,host, () => {
   console.log(`API run in: http://localhost:${port}.`);

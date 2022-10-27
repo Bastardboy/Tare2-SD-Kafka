@@ -22,8 +22,8 @@ var kafka = new Kafka({
   brokers: ["kafka:9092"],
 });
 
-var cpremium = [];
-var cpnopremium = [];
+var miembrosP = [];
+var miembrosN = [];
 
 const main = async () => {
   const consumer = kafka.consumer({ groupId: "members" });
@@ -38,27 +38,26 @@ const main = async () => {
       console.log("Registrando Miembro...");
       if(partition == 1)
       {
+        console.log("Entramos en la particion 1: Usuarios Premium")
         var miembro = JSON.parse(message.value.toString());
-        cpremium.push(miembro); 
+        miembrosP.push(miembro); 
       }
       else if(partition == 0)
       {
+        console.log("Entramos en la particion 0: Usuarios Normales")
         var miembro = JSON.parse(message.value.toString());
-        cpnopremium.push(miembro);
+        miembrosN.push(miembro);
       }
       
-      console.log("Miembros Premium:" , cpremium.length)
-      if(cpremium != null )
+      console.log("Miembros Premium:" , miembrosP.length)
+      if(miembrosP.length > 0)
       {
-        //console.log("Listado Miembros Premium:")
-        console.log(cpremium)
+        console.log(miembrosP)
       }
-
-      console.log("Miembros No Premium:" ,cpnopremium.length)
-      if(cpnopremium != null )
+      console.log("Miembros Normales:" ,miembrosN.length)
+      if(miembrosN > 0 )
       {
-        //console.log("Listado Miembros No Premium:")
-        console.log(cpnopremium)
+        console.log(miembrosN)
       }
 
     },
