@@ -31,13 +31,25 @@ function sleep(ms) {
 }
 
 const desplegar_ventas = async () => {
-  var minutos = 0.5;
+  var minutos = 1;
   await sleep(1000*60*minutos)
 
-  console.log("Ventas de hoy:")
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth() + 1; // Months start at 0!
+  let dd = today.getDate();
+
+  if (dd < 10) dd = '0' + dd;
+  if (mm < 10) mm = '0' + mm;
+
+  const formattedToday = dd + '/' + mm + '/' + yyyy;
+
+  console.log("Ventas de hoy ("+formattedToday+"): ")
   for(let i=0; i<=ventas.length-1; i++)
   {
-    console.log(JSON.stringify(ventas[i]));
+    if(formattedToday == ventas[i]["dia"]){
+      console.log(JSON.stringify(ventas[i]));
+    }
   }
 }
 

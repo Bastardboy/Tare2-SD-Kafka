@@ -29,12 +29,22 @@ app.post("/ventas", (req, res) => {
   (async () => {
       const producer = kafka.producer();
       await producer.connect();
-      const { cliente, cant_sopaipa, hora, patente, stock, ubicacion } = req.body;
+      const { cliente, cant_sopaipa, patente, stock, ubicacion } = req.body;
 
-      let sale = {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      let mm = today.getMonth() + 1; // Months start at 0!
+      let dd = today.getDate();
+
+      if (dd < 10) dd = '0' + dd;
+      if (mm < 10) mm = '0' + mm;
+
+      const formattedToday = dd + '/' + mm + '/' + yyyy;
+
+      let V = {
         cliente: cliente,
         cant_sopaipa: cant_sopaipa,
-        hora: hora,
+        dia: formattedToday,
         patente: patente,
         stock: stock,
         ubicacion: ubicacion
@@ -45,23 +55,23 @@ app.post("/ventas", (req, res) => {
           // De esta forma se puede saber que el carrito está en una zona segura
             topic: 'ubicacion',
             partition: 0,
-            messages: [{key: 'key1', value: JSON.stringify(sale), partition: 0}]
+            messages: [{key: 'key1', value: JSON.stringify(V), partition: 0}]
         },
         {
           // Se envia al tópico de ventas, se usará para los cálculos de las ventas diarias
           topic: 'venta',
-          messages: [{value: JSON.stringify(sale)}]
+          messages: [{value: JSON.stringify(V)}]
         },
         {
             // El Stock se mantiene en esucha constante
             //Entonces al enviarle al topic stock, debe ser capaz de ver el stock restante que tiene el carrito
             topic: 'stock',
-            messages: [{value: JSON.stringify(sale)}]
+            messages: [{value: JSON.stringify(V)}]
         }
     ]
       await producer.sendBatch({ topicMessages })
       await producer.disconnect();
-      res.json(sale);
+      res.json(V);
       console.log('Venta registrada')
   })();
 });
