@@ -29,7 +29,7 @@ services:
       KAFKA_ADVERTISED_PORT: "9092"
       ALLOW_PLAINTEXT_LISTENER: "yes"
       KAFKA_CFG_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      KAFKA_CFG_NUM_PARTITIONS: "2" 
+      KAFKA_CFG_NUM_PARTITIONS: "2"
 
     ports:
       - 9092:9092
@@ -54,10 +54,6 @@ services:
     depends_on:
        - zookeeper
        - kafka 
-
-    # volumes:
-    #   - ./server/error:/usr/src/app
-
     ports:
       - "8000:8000"
 
@@ -68,11 +64,7 @@ services:
       - red
     depends_on:
        - zookeeper
-       - kafka 
-
-    # volumes:
-    #   - ./server/error:/usr/src/app
-
+       - kafka
     ports:
       - "3001:3000"
 
@@ -84,10 +76,6 @@ services:
     depends_on:
        - zookeeper
        - kafka 
-
-    # volumes:
-    #   - ./server/error:/usr/src/app
-
     ports:
       - "8001:8000"
 
@@ -101,9 +89,6 @@ services:
        - kafka 
     environment: 
       - kafka
-    # volumes:
-    #   - ./server/error:/usr/src/app
-
     ports:
       - "8002:8000"
 
@@ -115,10 +100,6 @@ services:
     depends_on:
        - zookeeper
        - kafka 
-
-    # volumes:
-    #   - ./server/error:/usr/src/app
-
     ports:
       - "3003:3000"
 

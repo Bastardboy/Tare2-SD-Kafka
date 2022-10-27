@@ -24,13 +24,13 @@ var kafka = new Kafka({
   brokers: ["kafka:9092"],
 });
 
-app.post("/sales", (req, res) => {
-  console.log("sales");
+app.post("/ventas", (req, res) => {
+  //console.log("V");
   (async () => {
       const producer = kafka.producer();
-      //const admin = kafka.admin();
       await producer.connect();
       const { client, count_sopaipillas, hora, stock, ubicacion } = req.body;
+      
       var time = Math.floor(new Date() / 1000);
 
       let sale = {
@@ -42,12 +42,12 @@ app.post("/sales", (req, res) => {
       }
       const topicMessages = [
         {
-            topic: 'coordenadas',
-            messages: [{key: 'key1', value: JSON.stringify(sale), partition: 1}]
+            topic: 'ubicacion',
+            messages: [{key: 'key1', value: JSON.stringify(sale), partition: 0}]
         },
         {
           // Stock debe estar leyendo constantes consultas
-          topic: 'sales',
+          topic: 'ventas',
           messages: [{value: JSON.stringify(sale)}]
         },
         {

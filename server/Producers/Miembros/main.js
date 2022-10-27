@@ -45,7 +45,6 @@ app.post("/registro", (req, res) => {
       if(member["premium"] == 1){
         const topicMessages = [
           {
-            // Stock debe estar leyendo constantes consultas
             topic: 'N_Miembro',
             partition : 1,
             messages: [{value: JSON.stringify(member), partition: 1}]

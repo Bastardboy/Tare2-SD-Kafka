@@ -6,6 +6,7 @@ const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 const { Kafka } = require("kafkajs");
 
+
 const app = express()
 dotenv.config()
 app.use(bodyParser.urlencoded({
@@ -21,38 +22,33 @@ var kafka = new Kafka({
   clientId: "my-app",
   brokers: ["kafka:9092"],
 });
-const consumer = kafka.consumer({ groupId: "group-ubication" });
-
-
 
 var value = null
 var json = {}
 var stock = []
-
+//var registro = {};
 const main = async () => {
-  console.log("Entra Ubication")
+  const consumer = kafka.consumer({ groupId: "ubication" });
+  
   await consumer.connect();
-  await consumer.subscribe({ topic: "ubication",partition: 0, fromBeginning: true });
-  console.log("consumer");
+  await consumer.subscribe({ topic: "ubicacion", fromBeginning: true });
 
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      value = message.value
-      console.log("Estoy en la particion 2")
-      console.log("Aqui estan todos los carritos limpios.")
-
-      var algo = JSON.parse(message.value.toString());
-      console.log(algo)
-      json = JSON.parse(value)
+      var value = JSON.parse(message.value.toString());
+      if(partition == 0)
+      {
+        console.log("Entra a particion 0")
+        console.log("Carrito ok")
+      }
+      else if(partition == 1)
+      {
+        console.log("Entra en particion 1")
+        console.log("Este carrito es profugo, patente:", value["patente"])
+      }
     },
   })
-  .catch(console.error)
-};
-
-app.get('/blocked', (req, res) => {
-  res.send(bloqueados)
-})
-
+}
 
 app.listen(port,host,()=>{
     console.log(`API-Blocked run in: http://localhost:${port}.`)

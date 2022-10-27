@@ -30,7 +30,7 @@ var stock = [];
 const main = async () => {
   console.log("Entra sale")
   await consumer.connect();
-  await consumer.subscribe({ topic: "sales", fromBeginning: true });
+  await consumer.subscribe({ topic: "ventas", fromBeginning: true });
   console.log("producer");
 
   await consumer.run({
@@ -54,12 +54,6 @@ const main = async () => {
   })
   .catch(console.error)
 };
-
-//asdlaskdj
-app.get('/blocked', (req, res) => {
-  res.send(bloqueados)
-})
-/* PORTS */
 
 app.listen(port,host,()=>{
     console.log(`API-Blocked run in: http://localhost:${port}.`)
