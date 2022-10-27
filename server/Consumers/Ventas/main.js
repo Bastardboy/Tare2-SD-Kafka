@@ -24,7 +24,22 @@ var kafka = new Kafka({
   brokers: ["kafka:9092"],
 });
 
-var venta = [];
+var ventas = [];
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const desplegar_ventas = async () => {
+  var minutos = 0.5;
+  await sleep(1000*60*minutos)
+
+  console.log("Ventas de hoy:")
+  for(let i=0; i<=ventas.length-1; i++)
+  {
+    console.log(JSON.stringify(ventas[i]));
+  }
+}
 
 const main = async () => {
   const consumer = kafka.consumer({ groupId: "venta" });
@@ -38,7 +53,7 @@ const main = async () => {
 
       console.log("Venta registrada: ", venta);
 
-      venta.push(venta);
+      ventas.push(venta);
 
       // if(stock.includes(json)){
       //   console.log('Consulta ya guardada')
@@ -52,6 +67,8 @@ const main = async () => {
     },
   });
 };
+
+desplegar_ventas();
 
 app.listen(port, host, () => {
   console.log(`API-Blocked run in: http://localhost:${port}.`);
