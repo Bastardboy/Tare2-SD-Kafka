@@ -12,17 +12,17 @@
 
 ## Acerca del proyecto
 
-El objetivo de esta tarea consiste en poner en práctica los conceptos de Caché y RPC vistos en clases. Para ello se debe hacer uso de tecnlogías que permitan la solución a esta problemática
+El objetivo de esta tarea consiste en poner en práctica los conceptos de cola de eventos. Para ello se debe hacer uso de tecnlogías que permitan la solución a esta problemática
 
 
 ### 🛠 Construído con:
 
 Esta sección muestra las tecnologías con las que fue construído el proyecto.
 
-* [gRPC](https://grpc.io)
-* [Redis](https://redis.io)
-* [Postgres](https://www.postgresql.org)
-* [Python](https://www.python.org)
+* [Kafka](https://kafka.apache.org/documentation/#gettingStarted)
+* [Zookeper](https://zookeeper.apache.org/doc/r3.8.0/index.html)
+* [NodeJs](https://nodejs.org/en/docs/guides/)
+* [KafkaJs](https://kafka.js.org/docs/getting-started)
 * [Docker](https://www.docker.com)
 
 
@@ -47,30 +47,27 @@ Tener Docker y Docker Compose instalado
 
 ## 🤝 Uso
 
-La aplicación tiene una API, que a través del método GET se pueden hacer las siguientes consultas:
+La aplicación tiene una API, que a través del método POST se pueden hacer las peticiones de ingreso:
 
 ### Query
 Busca el inventario según la coincidencia de la palabra otorgada, busca en Cache y luego en la Base de Datos.
 ```curl
-curl −−location −−request GET http://localhost:8000/search?search=Value
+curl −−location −−request GET http://localhost:3000/registro
 ```
 #### 
-- ☄METODO: GET
-- 🔑KEY: search
-- 📃VALUE: \<palabra a buscar\>
+- ☄METODO: Post
+- 🔑KEY: registro
+- 📃VALUE: \<JSON con los parámetros solicitados\>
 
-#### Response example
+#### JSON example
 ```js
 {
-    "site":
-        {
-            "id": 36323,
-            "title": "NULL",
-            "description": "Weather Underground provides local & long-range weather forecasts, weather reports, maps & tropical weather conditions for locations worldwide",
-            "keyword": "NULL",
-            "url": "https://www.wunderground.com/"
-        }
-    ]
+    "name": "Bastian",
+    "lastname":"Pazán",
+    "dni":"13976345-7",
+    "email":"quiero@morir.com",
+    "patent": "XDFG65",
+    "premium": "0"
 }
 ```
 ## 📹 Video Demostrativo
