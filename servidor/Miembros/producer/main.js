@@ -17,12 +17,12 @@ const producer = kafka.producer();
 app.post("/registrar", async (req, res) => {
   const { name, lastname, dni, email, patent, premium } = req.body;
   let user = {
-    name: name,
-    lastname: lastname,
-    dni: dni,
-    email: email,
-    patent: patent,
-    premium: premium,
+    name: "wea",
+    lastname: "lastname",
+    dni: "dni",
+    email: "email",
+    patent: "patent",
+    premium: "premium",
   };
     await producer.connect();
     await producer.send({

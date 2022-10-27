@@ -1,0 +1,1 @@
+sud docker system prune -a -y

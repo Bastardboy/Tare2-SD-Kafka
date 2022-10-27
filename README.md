@@ -1,23 +1,66 @@
-# Tare 2 - Sistemas Distribuidos - Kafka
-
-En este repositorio tendremos el codigo y las instrucciones para ejecutar la tarea 2 de sistemas distribuidos, esta consiste en implementar un servicio api rest utilizando apache kafka como sistema de streaming de eventos, para efectos de nuestro proyecto utilizaremos node y docker para lograr los objetivos.
-
-## Dependencias
-
-- [nodejs](https://nodejs.org/es/download/package-manager/)
-- [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-- [zookeeper](https://zookeeper.apache.org/releases.html)
-- [kafka](https://kafka.apache.org/downloads)
-- [docker](https://docs.docker.com/engine/install/)
-- [docker-compose](https://docs.docker.com/compose/install/)
-- [zookeeper (docker)](https://hub.docker.com/r/bitnami/zookeeper)
-- [kafka (docker)](https://hub.docker.com/r/bitnami/kafka)
-
-
-    https://kafka.js.org/docs/getting-started
+# SD-Homeworks2
+## Integrantes: Abel Baulloza y Diego Carrillo .
+**Instrucciones y uso**
+NO HAY PERROOOOOS
 
 
 
 
 
-kafka-console-producer.sh --topic name_topic --bootstrap-server localhost:9092
+if(bloqueados.includes(json)) /*json["name"]*/
+      {
+        let word = json["username"]
+        //res.json(word+" bloqueado")
+        console.log("ta bloqueado sorry :(")
+        //return
+      }else{
+        if(!(json["username"] in registro)){
+          var array = []
+          registro[json["username"]] = array
+          registro[json["username"]].push(json["tiempo"])
+        }else{
+          registro[json["username"]].push(json["tiempo"])
+        }
+        //console.log(registro[json["username"]])
+        //console.log(registro[json["username"]].length)
+        if(registro[json["username"]].length >= 3 && registro[json["username"]][registro[json["username"]].length -1] - registro[json["username"]][registro[json["username"]].length -5] <60){
+          //console.log(registro[json["username"]][registro[json["username"]].length -1] - registro[json["username"]][registro[json["username"]].length -5])
+          console.log("Bloqueado")
+          bloqueados.push(json["username"])
+          console.log(bloqueados)
+        }
+      }
+
+
+
+
+
+Topic: Ventas
+http://localhost:3001/sales
+
+{
+	"client": "abel",
+  "count_sopaipillas": "3",
+	"hora": "14:45",
+	"stock": "5",
+	"ubicacion": "2,1"
+}
+
+Topic: Stock
+
+
+
+Topic: Coordenadas
+
+
+Topic: Miembros
+http://localhost:3000/new_member
+
+{
+	"name": "abel",
+  	"lastname": "baulloza almeida",
+	"dni": "20.245.835-1",
+	"mail": "abel.baulloza@mail.udp.cl",
+	"patente": "CGZY30",
+	"premium":"si"
+}
