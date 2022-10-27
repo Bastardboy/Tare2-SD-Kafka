@@ -16,7 +16,10 @@ const kafka = new Kafka({
 
 app.post('/venta', async(req, res) => {
     const producer = kafka.producer();
+    const producer2 = kafka.producer();
+
     await producer.connect();
+    await producer2.connect();
 
     const { name, lastname, cant_sopai, hora, stock_restante, ubicacion } = req.body;
     let user = {
@@ -30,17 +33,15 @@ app.post('/venta', async(req, res) => {
 
     datos = JSON.stringify(user);
 
-    const TopicMsg = [
-        {
-            topic: 'venta',
-            messages: [ datos ],
-        },
-        {
-            topic: 'stock',
-            messages: [ datos ],
-        }
-    ]
-    await producer.sendBatch({ TopicMsg });
+    await producer.send({
+        topic: 'N_Venta',
+        messages: [{ value: datos }],
+    });
+
+    await producer2.send({
+        topic: 'VentaDiaria',
+        messages: [{ value: datos }],
+    });
 
     await producer.disconnect().then(
         res.status(200).json({

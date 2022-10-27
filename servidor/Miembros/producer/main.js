@@ -14,8 +14,15 @@ const kafka = new Kafka({
 
 const producer = kafka.producer();
 
+var miembros = [];
+var miembrosP = [];
+
 app.post("/registrar", async (req, res) => {
   const { name, lastname, dni, email, patent, premium } = req.body;
+
+  await producer.connect();
+
+  console.log("CONECTAMOS AL PRODUCER")
   let user = {
     name: name,
     lastname: lastname,
@@ -24,16 +31,44 @@ app.post("/registrar", async (req, res) => {
     patent: patent,
     premium: premium,
   };
-    await producer.connect();
-    await producer.send({
-      topic: 'N_Miembro',
-      messages: [{ value: JSON.stringify(user) }],
-    });
-    await producer.disconnect().then(
-      res.status(200).json({
-        message: "Miembro Registrado",
-      })
-    );
+
+  datos = JSON.stringify(user);
+
+  if(user["premium"] == 1){
+    miembrosP.push(user);
+    console.log("ENTRAMOS A UN PREMIUM");
+    const TopicMsg = [
+      {
+        topic: "N_Miembro",
+        partition: 1,
+        messages: [{value: datos}],
+      },
+      {
+        topic: "Stock",
+        messages: [{value: datos}],
+      }
+    ]
+    await producer.sendBatch({TopicMsg });
+  }else{
+    miembros.push(user);
+    console.log("ENTRAMOS A UN NO PREMIUM");
+    const TopicMsg = [
+      {
+        topic: "N_Miembro",
+        partition: 0,
+        messages: [{value: datos}],
+      },
+      {
+        topic: "Stock",
+        messages: [{value: datos}],
+      }
+    ]
+    await producer.sendBatch({ TopicMsg });
+  }
+  console.log("ENVIAMOS LOS DATOS");
+  await producer.disconnect();
+  res.json({ user });
+
 });
 
 app.listen(port, () => {

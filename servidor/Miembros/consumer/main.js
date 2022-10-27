@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { Kafka } = require('kafkajs');
+const { json } = require('body-parser');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -12,7 +13,9 @@ const kafka = new Kafka({
     brokers: ['kafka:9092']
 });
 
+var json = {}
 var miembros = [];
+var miembrosP = [];
 
 const func = async () => {
     const consumer = kafka.consumer({ groupId: 'N_Miembro', fromBeginning: true });
@@ -21,11 +24,20 @@ const func = async () => {
     await consumer.subscribe({ topic: 'N_Miembro'});
 
     await consumer.run({
-        eachMessage: async ({ topic, partition, message }) => {   
-            if(message.value){
-                var data = JSON.parse(message.value.toString());
-                miembros.push(data);
-                console.log(miembros);
+        eachMessage: async ({ topic, partition, message }) => {  
+            value = message.value
+            
+            console.log("Los datos son: ",value);
+
+            json = JSON.parse(value)
+            let find = json["premium"] // 1 - 0 y si es premium o no
+
+            if(find == 1){
+                miembrosP.push(json)
+                console.log(miembrosP)
+            }else{
+                miembros.push(json)
+                console.log(miembros)
             }
         },
     });
