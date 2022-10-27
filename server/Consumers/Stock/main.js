@@ -24,8 +24,6 @@ var kafka = new Kafka({
   brokers: ["kafka:9092"],
 });
 
-var value = null;
-var json = {};
 var stock = [];
 
 const main = async () => {
@@ -40,25 +38,14 @@ const main = async () => {
 
         if(algo["stock"] <= 5){
           console.log("Stock MENOR A 5, SE AGREGA A LA COLA DE MENSAJE PARA NOTIFICAR");
-          stock.push(algo["patente", "stock", "ubicacion"]);
+          stock.push(algo["patente"]);
           console.log("TAMAÑO DEL ARREGLO, ES DECIR CUANTOS SE HAN METIDO " + stock.length);
         }
         if(stock.length == 5){
-          console.log("LA COLA DE NOTIFICACION ESTA LLENA, SE PROCEDE A MOSTRAR LOS DATOS DE LOS CARRITOS");
-          console.log(stock);
+          console.log("LA COLA DE NOTIFICACION ESTA LLENA, SE PROCEDE A MOSTRAR LOS CARRITOS CON FALTA ADE SOPAIPILLAS");
+          console.log("Patente de los carritos: "+stock+" con falta de sopapillas");
           stock = [];
         }
-
-
-        // if (algo["stock"] <= 3) {
-        //   stock.push(algo);
-        //   if (stock.length == 5) {
-        //     console.log(
-        //       "Tenemos 5 miembros con problema de stock"
-        //     );
-        //     stock = [];
-        //   }
-        // }
       },
     })
 };

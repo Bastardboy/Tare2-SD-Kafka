@@ -59,7 +59,7 @@ curl −−location −−request GET http://localhost:3000/registro
 - 🔑KEY: registro
 - 📃VALUE: \<JSON con los parámetros solicitados\>
 
-#### JSON example
+#### JSON Registro
 ```js
 {
     "name": "Bastian",
@@ -70,5 +70,25 @@ curl −−location −−request GET http://localhost:3000/registro
     "premium": "0"
 }
 ```
+```curl
+curl −−location −−request GET http://localhost:3000/registro
+```
+#### 
+- ☄METODO: Post
+- 🔑KEY: registro
+- 📃VALUE: \<JSON con los parámetros solicitados\>
+
+#### JSON Registro de Venta
+```js
+{
+    "cliente": "Cachulo",
+    "cant_sopaipa":"10",
+    "patente":"patentefalsa123",
+    "stock":"5",
+    "ubicacion": "123,123"
+}
+```
+
+
 ## 📹 Video Demostrativo
 [![Alt text](https://i.imgur.com/UzCFNcT.png)](https://youtu.be/h09TIF2YaNk)
