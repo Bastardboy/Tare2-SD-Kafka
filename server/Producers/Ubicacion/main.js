@@ -31,19 +31,19 @@ app.post("/ubicacion", (req, res) => {
       const producer = kafka.producer();
       
       await producer.connect();
-      const { patente,ubicacion , denuncia } = req.body;
+      const { patente,ubicacion , reporte } = req.body;
       
       let localizacion = {
         patente: patente,
         ubicacion: ubicacion,
-        denuncia: denuncia
+        reporte: reporte
       }
       value = JSON.stringify(localizacion)
       
       //Al igual que en el producer de miembros, dependiendo de la "opcion"
       //se envia a una particion u otra 1 = carritos profugos 0 = carritos seguros
 
-      if(localizacion["denuncia"] == 1){
+      if(localizacion["reporte"] == 1){
         const topicMessages = [
           {
             topic: 'ubicacion',

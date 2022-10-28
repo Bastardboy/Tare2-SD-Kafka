@@ -104,7 +104,7 @@ curl −−location −−request GET http://localhost:3002/ubicacion
 {
     "patente": "Cachulo",
     "coordenadas": "(14,15)",
-    "denuncia": 1
+    "reporte": 1
 }
 ```
 
