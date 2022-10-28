@@ -71,11 +71,11 @@ curl −−location −−request GET http://localhost:3000/registro
 }
 ```
 ```curl
-curl −−location −−request GET http://localhost:3000/registro
+curl −−location −−request GET http://localhost:3001/registro
 ```
 #### 
 - ☄METODO: Post
-- 🔑KEY: registro
+- 🔑KEY: ventas
 - 📃VALUE: \<JSON con los parámetros solicitados\>
 
 #### JSON Registro de Venta
