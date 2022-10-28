@@ -99,7 +99,7 @@ curl −−location −−request GET http://localhost:3002/ubicacion
 - 🔑KEY: ubicacion
 - 📃VALUE: \<JSON con los parámetros solicitados\>
 
-#### JSON Registro de Carrito Perdido
+#### JSON Registro de Ubicacion
 ```js
 {
     "patente": "Cachulo",
