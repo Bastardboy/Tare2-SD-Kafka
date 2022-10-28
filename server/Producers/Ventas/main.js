@@ -55,7 +55,7 @@ app.post("/ventas", (req, res) => {
           // De esta forma se puede saber que el carrito está en una zona segura
             topic: 'ubicacion',
             partition: 0,
-            messages: [{key: 'key1', value: JSON.stringify(V), partition: 0}]
+            messages: [{value: JSON.stringify(V), partition: 0}]
         },
         {
           // Se envia al tópico de ventas, se usará para los cálculos de las ventas diarias

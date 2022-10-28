@@ -41,24 +41,24 @@ const main = async () => {
         console.log("Entramos en la particion 1: Usuarios Premium")
         var miembro = JSON.parse(message.value.toString());
         miembrosP.push(miembro); 
+        console.log("Miembros Premium:" , miembrosP.length)
+        if(miembrosP.length > 0)
+        {
+          console.log(miembrosP)
+        }
       }
       else if(partition == 0)
       {
         console.log("Entramos en la particion 0: Usuarios Normales")
         var miembro = JSON.parse(message.value.toString());
         miembrosN.push(miembro);
+        console.log("Miembros Normales:" ,miembrosN.length)
+        if(miembrosN.length > 0 )
+        {
+          console.log(miembrosN)
+        }
       }
       
-      console.log("Miembros Premium:" , miembrosP.length)
-      if(miembrosP.length > 0)
-      {
-        console.log(miembrosP)
-      }
-      console.log("Miembros Normales:" ,miembrosN.length)
-      if(miembrosN > 0 )
-      {
-        console.log(miembrosN)
-      }
 
     },
   })

@@ -31,7 +31,7 @@ function sleep(ms) {
 }
 
 const desplegar_ventas = async () => {
-  var minutos = 1;
+  var minutos = 3;
   await sleep(1000*60*minutos)
 
   const today = new Date();
@@ -66,16 +66,6 @@ const main = async () => {
       console.log("Venta registrada: ", venta);
 
       ventas.push(venta);
-
-      // if(stock.includes(json)){
-      //   console.log('Consulta ya guardada')
-      // }else{
-      //   stock.push(json)
-      //   if(stock.length==5){
-      //     console.log('Lista de 5 consultas guardadas')
-      //     console.log(stock)
-      //   }
-      // }
     },
   });
 };
