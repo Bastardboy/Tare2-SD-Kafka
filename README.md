@@ -70,6 +70,7 @@ curl −−location −−request GET http://localhost:3000/registro
     "premium": "0"
 }
 ```
+
 ```curl
 curl −−location −−request GET http://localhost:3001/registro
 ```
@@ -86,6 +87,24 @@ curl −−location −−request GET http://localhost:3001/registro
     "patente":"patentefalsa123",
     "stock":"5",
     "ubicacion": "123,123"
+}
+```
+
+
+```curl
+curl −−location −−request GET http://localhost:3002/ubicacion
+```
+#### 
+- ☄METODO: Post
+- 🔑KEY: ubicacion
+- 📃VALUE: \<JSON con los parámetros solicitados\>
+
+#### JSON Registro de Carrito Perdido
+```js
+{
+    "patente": "Cachulo",
+    "coordenadas": "(14,15)",
+    "denuncia": 1
 }
 ```
 
