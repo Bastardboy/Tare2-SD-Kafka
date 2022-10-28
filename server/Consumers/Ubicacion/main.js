@@ -27,6 +27,22 @@ var kafka = new Kafka({
 var carrito = []
 var carritoP = []
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const ubicacion_check = async () => {
+  while(true){
+    await sleep(5000)
+    for(let i=0; i<=carrito.length-1; i++)
+    {
+      if((Date.now()/1000 - carrito[i]["tiempo"]) > 60){
+        console.log("Borrando ubicacion de carrito:",carrito[i]["patente"]);
+        carrito.splice(i,1);
+      }
+    }
+  }
+}
 
 const main = async () => {
   const consumer = kafka.consumer({ groupId: "ubicacion" });
@@ -37,12 +53,29 @@ const main = async () => {
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
       var value = JSON.parse(message.value.toString());
+
       if(partition == 0)
       {
-        carrito.push(value["ubicacion"]);
         console.log("Entra a particion 0")
         console.log("Carrito esta bien")
-        console.log(carrito)
+
+        
+        var find = false;
+        for(let i=0; i<=carrito.length-1; i++)
+        {
+          if(carrito[i]["patente"] === value["patente"]){
+            find = true;
+            carrito[i]["ubicacion"] = value["ubicacion"];
+            carrito[i]["tiempo"] = Date.now()/1000;
+            console.log("actualizando ubicacion de carrito "+carrito[i]["patente"]+" a "+carrito[i]["ubicacion"]);
+          }
+        }
+        if(!find){
+          carrito.push({"patente":value["patente"],"ubicacion":value["ubicacion"],"tiempo":Date.now()/1000});
+          console.log("añadiendo ubicacion de carrito "+value["patente"],"(Ubicacion:",value["ubicacion"]+")")
+        }
+        
+
       }
       else if(partition == 1)
       {
@@ -54,6 +87,8 @@ const main = async () => {
     },
   })
 }
+
+ubicacion_check()
 
 app.listen(port,host,()=>{
     console.log(`API-Blocked run in: http://localhost:${port}.`)

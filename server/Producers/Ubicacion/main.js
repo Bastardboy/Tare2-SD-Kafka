@@ -31,12 +31,12 @@ app.post("/ubicacion", (req, res) => {
       const producer = kafka.producer();
       
       await producer.connect();
-      const { patente,coordenadas , denuncia } = req.body;
-      today = new Date();
+      const { patente,ubicacion , denuncia } = req.body;
+      
       let localizacion = {
         patente: patente,
-        coordenadas:coordenadas,
-        denuncia:denuncia ,
+        ubicacion: ubicacion,
+        denuncia: denuncia
       }
       value = JSON.stringify(localizacion)
       
