@@ -71,7 +71,7 @@ curl −−location −−request POST http://localhost:3000/registro
 ```
 
 ```curl
-curl −−location −−request POST http://localhost:3001/registro
+curl −−location −−request POST http://localhost:3001/ventas
 ```
 #### 
 - ☄METODO: Post
