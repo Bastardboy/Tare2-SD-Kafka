@@ -29,7 +29,6 @@ var kafka = new Kafka({
 app.post("/registro", (req, res) => {
   (async () => {
       const producer = kafka.producer();
-      //const admin = kafka.admin();
       await producer.connect();
       const { name, lastname, rut, mail, patente, premium } = req.body;
       let member = {
