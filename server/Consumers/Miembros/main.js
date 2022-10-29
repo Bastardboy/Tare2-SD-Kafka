@@ -27,14 +27,12 @@ var miembrosN = [];
 
 const main = async () => {
   const consumer = kafka.consumer({ groupId: "N_Miembro" });
-  console.log("Entra main")
   await consumer.connect();
   await consumer.subscribe({ topic: "N_Miembro", fromBeginning: true });
-  console.log("producer");
+
 
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      
       console.log("Registrando Miembro...");
       if(partition == 1)
       {
