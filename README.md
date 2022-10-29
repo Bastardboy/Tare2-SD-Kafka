@@ -51,7 +51,7 @@ La aplicación tiene una API, que a través del método POST se pueden hacer las
 
 ### Peticiones de ingreso al sistema
 ```curl
-curl −−location −−request GET http://localhost:3000/registro
+curl −−location −−request POST http://localhost:3000/registro
 ```
 #### 
 - ☄METODO: Post
@@ -71,7 +71,7 @@ curl −−location −−request GET http://localhost:3000/registro
 ```
 
 ```curl
-curl −−location −−request GET http://localhost:3001/registro
+curl −−location −−request POST http://localhost:3001/registro
 ```
 #### 
 - ☄METODO: Post
@@ -91,7 +91,7 @@ curl −−location −−request GET http://localhost:3001/registro
 
 
 ```curl
-curl −−location −−request GET http://localhost:3002/ubicacion
+curl −−location −−request POST http://localhost:3002/ubicacion
 ```
 #### 
 - ☄METODO: Post
